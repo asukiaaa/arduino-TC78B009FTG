@@ -81,23 +81,29 @@ class R00 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("chargePumpLow " + string_asukiaaa::trueFalse(chargePumpLow) +
-                  ", ");
-    serial->print("temperature " + string_asukiaaa::trueFalse(temperature) +
-                  ", ");
-    serial->print("overcurrent " + string_asukiaaa::trueFalse(overcurrent) +
-                  ", ");
-    serial->print("maximumRotationNumber " +
-                  string_asukiaaa::trueFalse(maximumRotationNumber) + ", ");
-    serial->print("minimumRotationNumber " +
-                  string_asukiaaa::trueFalse(minimumRotationNumber) + ", ");
-    serial->print("startup " + string_asukiaaa::trueFalse(startup));
+    serial->print(F("chargePumpLow "));
+    serial->print(string_asukiaaa::trueFalse(chargePumpLow));
+    serial->print(F(", "));
+    serial->print(F("temperature "));
+    serial->print(string_asukiaaa::trueFalse(temperature));
+    serial->print(F(", "));
+    serial->print(F("overcurrent "));
+    serial->print(string_asukiaaa::trueFalse(overcurrent));
+    serial->print(F(", "));
+    serial->print(F("maximumRotationNumber "));
+    serial->print(string_asukiaaa::trueFalse(maximumRotationNumber));
+    serial->print(F(", "));
+    serial->print(F("minimumRotationNumber "));
+    serial->print(string_asukiaaa::trueFalse(minimumRotationNumber));
+    serial->print(F(", "));
+    serial->print(F("startup "));
+    serial->print(string_asukiaaa::trueFalse(startup));
   }
 };
 
 class R01 : public BaseOneValue {
  public:
-  R01() : BaseOneValue(1, "userId") {}
+  R01() : BaseOneValue(1, F("userId")) {}
   uint8_t userId = 0;
 
  private:
@@ -132,14 +138,17 @@ class R02 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("noStop " + string_asukiaaa::trueFalse(noStop) + ", ");
-    serial->print("stopDuty " + String(stopDuty));
+    serial->print(F("noStop "));
+    serial->print(string_asukiaaa::trueFalse(noStop));
+    serial->print(F(", "));
+    serial->print(F("stopDuty "));
+    serial->print(String(stopDuty));
   }
 };
 
 class R03 : public BaseOneValue {
  public:
-  R03() : BaseOneValue(3, "startDuty") {}
+  R03() : BaseOneValue(3, F("startDuty")) {}
   uint8_t startDuty = 0;
   void setStartDutyByRate(float rate) {
     uint16_t val = rate * 0x200;
@@ -147,8 +156,11 @@ class R03 : public BaseOneValue {
   }
 
   void print(Stream* serial) {
-    serial->print("startDuty " + String(startDuty) + " (" +
-                  String((float)startDuty / 0x200) + ")");
+    serial->print(F("startDuty "));
+    serial->print(startDuty);
+    serial->print(F(" ("));
+    serial->print((float)startDuty / 0x200);
+    serial->print(F(")"));
   }
 
  private:
@@ -157,14 +169,17 @@ class R03 : public BaseOneValue {
 
 class R04 : public BaseOneValue {
  public:
-  R04() : BaseOneValue(4, "changeDuty") {}
+  R04() : BaseOneValue(4, F("changeDuty")) {}
   uint8_t changeDuty = 0;
   void setChangeDutyByRate(float rate) { changeDuty = rate * 0xff; }
   void print(Stream* serial) {
     String strChangeDuty = changeDuty == 0
                                ? "not used"
                                : "(" + String((float)changeDuty / 0x100) + ")";
-    serial->print("changeDuty " + String(changeDuty) + " " + strChangeDuty);
+    serial->print(F("changeDuty "));
+    serial->print(changeDuty);
+    serial->print(F(" "));
+    serial->print(strChangeDuty);
   }
 
  private:
@@ -173,14 +188,17 @@ class R04 : public BaseOneValue {
 
 class R05 : public BaseOneValue {
  public:
-  R05() : BaseOneValue(5, "maxDuty") {}
+  R05() : BaseOneValue(5, F("maxDuty")) {}
   uint8_t maxDuty = 0;
   void setMaxDutyByRate(float rate) {
     maxDuty = rate < 0.5 ? 0 : ((uint16_t)(rate * 0x200) - 0x101);
   }
   void print(Stream* serial) {
-    serial->print("maxDuty " + String(maxDuty) + " (" +
-                  String(((float)maxDuty + 0x101) / 0x200) + ")");
+    serial->print(F("maxDuty "));
+    serial->print(maxDuty);
+    serial->print(F(" ("));
+    serial->print(((float)maxDuty + 0x101) / 0x200);
+    serial->print(F(")"));
   }
 
  private:
@@ -210,8 +228,11 @@ class R06to07 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("startRpm " + String(startRpm) + ", ");
-    serial->print("maxDutyHys " + String(maxDutyHys));
+    serial->print(F("startRpm "));
+    serial->print(startRpm);
+    serial->print(F(", "));
+    serial->print(F("maxDutyHys "));
+    serial->print(maxDutyHys);
   }
 };
 
@@ -241,9 +262,14 @@ class R08to09 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("speedSlop " + String(speedSlop) + ", ");
-    serial->print("maxOpen " + string_asukiaaa::trueFalse(maxOpen) + ", ");
-    serial->print("maxOff " + string_asukiaaa::trueFalse(maxOff));
+    serial->print(F("speedSlop "));
+    serial->print(speedSlop);
+    serial->print(F(", "));
+    serial->print(F("maxOpen "));
+    serial->print(string_asukiaaa::trueFalse(maxOpen));
+    serial->print(F(", "));
+    serial->print(F("maxOff "));
+    serial->print(string_asukiaaa::trueFalse(maxOff));
   }
 };
 
@@ -273,9 +299,14 @@ class R10to11 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("speedSlop2 " + String(speedSlop2) + ", ");
-    serial->print("vcpMask " + string_asukiaaa::trueFalse(vcpMask) + ", ");
-    serial->print("openLoop " + string_asukiaaa::trueFalse(openLoop));
+    serial->print(F("speedSlop2 "));
+    serial->print(speedSlop2);
+    serial->print(F(", "));
+    serial->print(F("vcpMask "));
+    serial->print(string_asukiaaa::trueFalse(vcpMask));
+    serial->print(F(", "));
+    serial->print(F("openLoop "));
+    serial->print(string_asukiaaa::trueFalse(openLoop));
   }
 };
 
@@ -305,8 +336,11 @@ class R12 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("kix " + utils::getStrOfKX(kix) + ", ");
-    serial->print("ki " + String(ki));
+    serial->print(F("kix "));
+    serial->print(utils::getStrOfKX(kix));
+    serial->print(F(", "));
+    serial->print(F("ki "));
+    serial->print(ki);
   }
 };
 
@@ -336,8 +370,11 @@ class R13 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("kpx " + utils::getStrOfKX(kpx) + ", ");
-    serial->print("kp " + String(kp));
+    serial->print(F("kpx "));
+    serial->print(utils::getStrOfKX(kpx));
+    serial->print(F(", "));
+    serial->print(F("kp "));
+    serial->print(kp);
   }
 };
 
@@ -382,17 +419,27 @@ class R14 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("stbyMode " + string_asukiaaa::trueFalse(stbyMode) + ", ");
-    serial->print("dir " + string_asukiaaa::trueFalse(dir) + ", ");
+    serial->print(F("stbyMode "));
+    serial->print(string_asukiaaa::trueFalse(stbyMode));
+    serial->print(F(", "));
+    serial->print(F("dir "));
+    serial->print(string_asukiaaa::trueFalse(dir));
+    serial->print(F(", "));
     auto numPole = ((uint8_t)polePair + 1) * 2;
-    serial->print("polePair " + String(numPole) + ", ");
+    serial->print(F("polePair "));
+    serial->print(numPole);
+    serial->print(F(", "));
     using ValueTypes::MaxSpeedRpm;
-    String strRpm = maxSpeedRpm == MaxSpeedRpm::rpm4096    ? "4096"
-                    : maxSpeedRpm == MaxSpeedRpm::rpm8192  ? "8192"
-                    : maxSpeedRpm == MaxSpeedRpm::rpm16834 ? "16834"
-                                                           : "32768";
-    serial->print("maxSpeedRpm " + strRpm + "rpm, ");
-    serial->print("fgOn " + string_asukiaaa::trueFalse(fgOn) + ", ");
+    auto strRpm = maxSpeedRpm == MaxSpeedRpm::rpm4096    ? F("4096")
+                  : maxSpeedRpm == MaxSpeedRpm::rpm8192  ? F("8192")
+                  : maxSpeedRpm == MaxSpeedRpm::rpm16834 ? F("16834")
+                                                         : F("32768");
+    serial->print(F("maxSpeedRpm "));
+    serial->print(strRpm);
+    serial->print(F("rpm, "));
+    serial->print(F("fgOn "));
+    serial->print(string_asukiaaa::trueFalse(fgOn));
+    serial->print(F(", "));
   }
 };
 
@@ -438,36 +485,38 @@ class R15 : public Base {
 
   void print(Stream* serial) {
     using ValueTypes::FGSel;
-    String strFgSel = fgSel == FGSel::ppr1       ? "2ppr"
-                      : fgSel == FGSel::ppr1div2 ? "1/2ppr"
-                      : fgSel == FGSel::ppr1div3 ? "1/3ppr"
-                      : fgSel == FGSel::ppr2     ? "2ppr"
-                      : fgSel == FGSel::ppr2div3 ? "2/3ppr"
-                      : fgSel == FGSel::ppr2p4   ? "2.4ppr"
-                      : fgSel == FGSel::ppr3     ? "3ppr"
-                                                 : "alert";
-    serial->print("fgSel " + strFgSel + ", ");
-    serial->print(
-        "speedInputSelect " +
-        String(speedInputSelect == ValueTypes::SpeedInputSelect::analogVoltage
-                   ? "analogVoltage"
-                   : "pwm") +
-        ", ");
-    serial->print("speedInv " +
-                  String(speedInv == ValueTypes::SpeedInv::positive
-                             ? "positive"
-                             : "negatime") +
-                  ", ");
-    serial->print(
-        "latch " +
-        String(latch == ValueTypes::Latch::latch ? "latch" : "auto resetart") +
-        ", ");
+    auto strFgSel = fgSel == FGSel::ppr1       ? F("2ppr")
+                    : fgSel == FGSel::ppr1div2 ? F("1/2ppr")
+                    : fgSel == FGSel::ppr1div3 ? F("1/3ppr")
+                    : fgSel == FGSel::ppr2     ? F("2ppr")
+                    : fgSel == FGSel::ppr2div3 ? F("2/3ppr")
+                    : fgSel == FGSel::ppr2p4   ? F("2.4ppr")
+                    : fgSel == FGSel::ppr3     ? F("3ppr")
+                                               : F("alert");
+    serial->print(F("fgSel "));
+    serial->print(strFgSel);
+    serial->print(F(", "));
+    serial->print(F("speedInputSelect "));
+    serial->print(speedInputSelect ==
+                          ValueTypes::SpeedInputSelect::analogVoltage
+                      ? F("analogVoltage")
+                      : F("pwm"));
+    serial->print(F(", "));
+    serial->print(F("speedInv "));
+    serial->print(speedInv == ValueTypes::SpeedInv::positive ? F("positive")
+                                                             : F("negatime"));
+    serial->print(F(", "));
+    serial->print(F("latch "));
+    serial->print(latch == ValueTypes::Latch::latch ? F("latch")
+                                                    : F("auto resetart"));
+    serial->print(F(", "));
     using ValueTypes::OCPFilterTime;
-    String strOcpFilterTime = ocpFilterTime == OCPFilterTime::ns500   ? "500ns"
-                              : ocpFilterTime == OCPFilterTime::ns666 ? "666ns"
-                              : ocpFilterTime == OCPFilterTime::ns750 ? "750ns"
-                                                                      : "none";
-    serial->print("OCP filter time " + strOcpFilterTime);
+    auto strOcpFilterTime = ocpFilterTime == OCPFilterTime::ns500   ? F("500ns")
+                            : ocpFilterTime == OCPFilterTime::ns666 ? F("666ns")
+                            : ocpFilterTime == OCPFilterTime::ns750 ? F("750ns")
+                                                                    : F("none");
+    serial->print(F("OCP filter time "));
+    serial->print(strOcpFilterTime);
   }
 };
 
@@ -507,30 +556,37 @@ class R16 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("disableLock " + string_asukiaaa::trueFalse(disableLock) +
-                  ", ");
+    serial->print(F("disableLock "));
+    serial->print(string_asukiaaa::trueFalse(disableLock));
+    serial->print(F(", "));
     using ValueTypes::DutyChangeLimit;
-    String strDuty = dutyChangeLimit == DutyChangeLimit::x10div8   ? "10/8"
-                     : dutyChangeLimit == DutyChangeLimit::x20div8 ? "30/8"
-                     : dutyChangeLimit == DutyChangeLimit::x2div8  ? "2/8"
-                     : dutyChangeLimit == DutyChangeLimit::x3vid8  ? "3/8"
-                     : dutyChangeLimit == DutyChangeLimit::x4div8  ? "4/8"
-                     : dutyChangeLimit == DutyChangeLimit::x56div8 ? "56/8"
-                     : dutyChangeLimit == DutyChangeLimit::x6div8
-                         ? "6/8"
-                         : "64/8 for closed loop disable for open loop";
-    serial->print("dutyChangeLimit " + strDuty + ", ");
+    auto strDuty = dutyChangeLimit == DutyChangeLimit::x10div8   ? F("10/8")
+                   : dutyChangeLimit == DutyChangeLimit::x20div8 ? F("30/8")
+                   : dutyChangeLimit == DutyChangeLimit::x2div8  ? F("2/8")
+                   : dutyChangeLimit == DutyChangeLimit::x3vid8  ? F("3/8")
+                   : dutyChangeLimit == DutyChangeLimit::x4div8  ? F("4/8")
+                   : dutyChangeLimit == DutyChangeLimit::x56div8 ? F("56/8")
+                   : dutyChangeLimit == DutyChangeLimit::x6div8
+                       ? F("6/8")
+                       : F("64/8 for closed loop disable for open loop");
+    serial->print(F("dutyChangeLimit "));
+    serial->print(strDuty);
+    serial->print(F(", "));
     using ValueTypes::StartCurrentLimit;
-    String strStart = startCurrentLimit == StartCurrentLimit::x0p125   ? "0.125"
-                      : startCurrentLimit == StartCurrentLimit::x0p25  ? "0.25"
-                      : startCurrentLimit == StartCurrentLimit::x0p375 ? "0.375"
-                      : startCurrentLimit == StartCurrentLimit::x0p5   ? "0.5"
-                      : startCurrentLimit == StartCurrentLimit::x0p625 ? "0.625"
-                      : startCurrentLimit == StartCurrentLimit::x0p75  ? "0.75"
-                      : startCurrentLimit == StartCurrentLimit::x0p875 ? "0.875"
-                                                                       : "1";
-    serial->print("startCurrentLimit x" + strStart + ", ");
-    serial->print("disableOCP " + string_asukiaaa::trueFalse(disableOCP));
+    auto strStart =
+        startCurrentLimit == StartCurrentLimit::x0p125   ? F("0.125")
+        : startCurrentLimit == StartCurrentLimit::x0p25  ? F("0.25")
+        : startCurrentLimit == StartCurrentLimit::x0p375 ? F("0.375")
+        : startCurrentLimit == StartCurrentLimit::x0p5   ? F("0.5")
+        : startCurrentLimit == StartCurrentLimit::x0p625 ? F("0.625")
+        : startCurrentLimit == StartCurrentLimit::x0p75  ? F("0.75")
+        : startCurrentLimit == StartCurrentLimit::x0p875 ? F("0.875")
+                                                         : F("1");
+    serial->print(F("startCurrentLimit x"));
+    serial->print(strStart);
+    serial->print(F(", "));
+    serial->print(F("disableOCP "));
+    serial->print(string_asukiaaa::trueFalse(disableOCP));
   }
 };
 
@@ -567,31 +623,39 @@ class R17 : public Base {
 
   void print(Stream* serial) {
     using ValueTypes::SSAddSel;
-    String strAddSel = ssAddSel == SSAddSel::x0p0   ? "0"
-                       : ssAddSel == SSAddSel::x0p3 ? "0.3"
-                       : ssAddSel == SSAddSel::x0p4 ? "0.4"
-                                                    : "0.5";
-    serial->print("ssAddSel x" + strAddSel + ", ");
+    auto strAddSel = ssAddSel == SSAddSel::x0p0   ? F("0")
+                     : ssAddSel == SSAddSel::x0p3 ? F("0.3")
+                     : ssAddSel == SSAddSel::x0p4 ? F("0.4")
+                                                  : F("0.5");
+    serial->print(F("ssAddSel x"));
+    serial->print(strAddSel);
+    serial->print(F(", "));
     using ValueTypes::SSUpSel;
-    String strUpSel = ssUpSel == SSUpSel::x0p01   ? "0.01"
-                      : ssUpSel == SSUpSel::x0p02 ? "0.02"
-                      : ssUpSel == SSUpSel::x0p05 ? "0.05"
-                                                  : "0.10";
-    serial->print("ssUpSel x" + strUpSel + ", ");
+    auto strUpSel = ssUpSel == SSUpSel::x0p01   ? F("0.01")
+                    : ssUpSel == SSUpSel::x0p02 ? F("0.02")
+                    : ssUpSel == SSUpSel::x0p05 ? F("0.05")
+                                                : F("0.10");
+    serial->print(F("ssUpSel x"));
+    serial->print(strUpSel);
+    serial->print(F(", "));
     using ValueTypes::SSDutyChangeLimit;
-    String strDutyChangeLimit =
-        ssDutyChangeLimit == SSDutyChangeLimit::percent0p17   ? "0.17"
-        : ssDutyChangeLimit == SSDutyChangeLimit::percent0p20 ? "0.20"
-        : ssDutyChangeLimit == SSDutyChangeLimit::percent0p55 ? "0.55"
-        : ssDutyChangeLimit == SSDutyChangeLimit::percent1p11 ? "1.11"
-        : ssDutyChangeLimit == SSDutyChangeLimit::percent1p84 ? "1.84"
-        : ssDutyChangeLimit == SSDutyChangeLimit::percent2p76 ? "2.76"
-        : ssDutyChangeLimit == SSDutyChangeLimit::percent3p69 ? "3.69"
-                                                              : "5.53";
-    serial->print("ssDutyChangeLimit " + strDutyChangeLimit + "%, ");
-    String strDutyUpTime =
-        dutyUpTime == ValueTypes::DutyUpTime::ms2p7 ? "2.7" : "10.8";
-    serial->print("dutyUpTime " + strDutyUpTime + "ms");
+    auto strDutyChangeLimit =
+        ssDutyChangeLimit == SSDutyChangeLimit::percent0p17   ? F("0.17")
+        : ssDutyChangeLimit == SSDutyChangeLimit::percent0p20 ? F("0.20")
+        : ssDutyChangeLimit == SSDutyChangeLimit::percent0p55 ? F("0.55")
+        : ssDutyChangeLimit == SSDutyChangeLimit::percent1p11 ? F("1.11")
+        : ssDutyChangeLimit == SSDutyChangeLimit::percent1p84 ? F("1.84")
+        : ssDutyChangeLimit == SSDutyChangeLimit::percent2p76 ? F("2.76")
+        : ssDutyChangeLimit == SSDutyChangeLimit::percent3p69 ? F("3.69")
+                                                              : F("5.53");
+    serial->print(F("ssDutyChangeLimit "));
+    serial->print(strDutyChangeLimit);
+    serial->print(F("%, "));
+    auto strDutyUpTime =
+        dutyUpTime == ValueTypes::DutyUpTime::ms2p7 ? F("2.7") : F("10.8");
+    serial->print(F("dutyUpTime "));
+    serial->print(strDutyUpTime);
+    serial->print(F("ms"));
   }
 };
 
@@ -637,29 +701,35 @@ class R18 : public Base {
 
   void print(Stream* serial) {
     using ValueTypes::RPMChangeLimit;
-    String strRpmChange =
-        rpmChangeLimit == RPMChangeLimit::rpm10240  ? "10240rpm"
-        : rpmChangeLimit == RPMChangeLimit::rpm2200 ? "2200rpm"
-        : rpmChangeLimit == RPMChangeLimit::rpm3800 ? "3800rpm"
-        : rpmChangeLimit == RPMChangeLimit::rpm512  ? "512rpm"
-        : rpmChangeLimit == RPMChangeLimit::rpm5400 ? "5400rpm"
-        : rpmChangeLimit == RPMChangeLimit::rpm7000 ? "7000rpm"
-        : rpmChangeLimit == RPMChangeLimit::rpm8600 ? "8600rpm"
-                                                    : "no limit";
-    serial->print("rpmChangeLimit " + strRpmChange + ", ");
-    serial->print("invBrake " + string_asukiaaa::trueFalse(invBrake) + ", ");
-    serial->print("disableOverCurrentDetection " +
-                  string_asukiaaa::trueFalse(disableOverCurrentDetection) +
-                  ", ");
+    auto strRpmChange =
+        rpmChangeLimit == RPMChangeLimit::rpm10240  ? F("10240rpm")
+        : rpmChangeLimit == RPMChangeLimit::rpm2200 ? F("2200rpm")
+        : rpmChangeLimit == RPMChangeLimit::rpm3800 ? F("3800rpm")
+        : rpmChangeLimit == RPMChangeLimit::rpm512  ? F("512rpm")
+        : rpmChangeLimit == RPMChangeLimit::rpm5400 ? F("5400rpm")
+        : rpmChangeLimit == RPMChangeLimit::rpm7000 ? F("7000rpm")
+        : rpmChangeLimit == RPMChangeLimit::rpm8600 ? F("8600rpm")
+                                                    : F("no limit");
+    serial->print(F("rpmChangeLimit "));
+    serial->print(strRpmChange);
+    serial->print(F(", "));
+    serial->print(F("invBrake "));
+    serial->print(string_asukiaaa::trueFalse(invBrake));
+    serial->print(F(", "));
+    serial->print(F("disableOverCurrentDetection "));
+    serial->print(string_asukiaaa::trueFalse(disableOverCurrentDetection));
+    serial->print(F(", "));
     using ValueTypes::AnalogFilter;
-    String strAnalogFilter = analogFilter == AnalogFilter::kHz100   ? "kHz"
-                             : analogFilter == AnalogFilter::kHz200 ? "200kHz"
-                             : analogFilter == AnalogFilter::kHz50  ? "50kHz"
-                                                                    : "none";
-    serial->print("analogFilter " + strAnalogFilter + ", ");
-    serial->print("disableAutoDeadTimecontrol " +
-                  string_asukiaaa::trueFalse(disableAutoDeatTimeControl) +
-                  ", ");
+    auto strAnalogFilter = analogFilter == AnalogFilter::kHz100   ? F("kHz")
+                           : analogFilter == AnalogFilter::kHz200 ? F("200kHz")
+                           : analogFilter == AnalogFilter::kHz50  ? F("50kHz")
+                                                                  : F("none");
+    serial->print(F("analogFilter "));
+    serial->print(strAnalogFilter);
+    serial->print(F(", "));
+    serial->print(F("disableAutoDeadTimecontrol "));
+    serial->print(string_asukiaaa::trueFalse(disableAutoDeatTimeControl));
+    serial->print(F(", "));
   }
 };
 
@@ -711,21 +781,30 @@ class R19 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("waitTime " + String(waitTime) + ", ");
-    serial->print("waitMode " + string_asukiaaa::trueFalse(waitMode) + ", ");
-    serial->print("waitCon " + string_asukiaaa::trueFalse(waitCon) + ", ");
-    serial->print("lockBrk " + string_asukiaaa::trueFalse(lockBrk) + ", ");
-    serial->print(
-        "alertPinConfig " +
-        String(alertPinConfig == ValueTypes::AlertPinConfig::highOnAlert
-                   ? "high"
-                   : "low") +
-        " on alert, ");
-    serial->print("waitMode " + string_asukiaaa::trueFalse(waitMode) + ", ");
+    serial->print(F("waitTime "));
+    serial->print(waitTime);
+    serial->print(F(", "));
+    serial->print(F("waitMode "));
+    serial->print(string_asukiaaa::trueFalse(waitMode));
+    serial->print(F(", "));
+    serial->print(F("waitCon "));
+    serial->print(string_asukiaaa::trueFalse(waitCon));
+    serial->print(F(", "));
+    serial->print(F("lockBrk "));
+    serial->print(string_asukiaaa::trueFalse(lockBrk));
+    serial->print(F(", "));
+    serial->print(F("alertPinConfig "));
+    serial->print(alertPinConfig == ValueTypes::AlertPinConfig::highOnAlert
+                      ? F("high")
+                      : F("low"));
+    serial->print(F(" on alert, "));
+    serial->print(F("waitMode "));
+    serial->print(string_asukiaaa::trueFalse(waitMode));
+    serial->print(F(", "));
   }
 };
 
-class R20 : public Base {  // TODO
+class R20 : public Base {
  public:
   R20() : Base(20) {}
   ValueTypes::RestartTime restartTime;
@@ -757,33 +836,38 @@ class R20 : public Base {  // TODO
 
   void print(Stream* serial) {
     using ValueTypes::RestartTime;
-    String strRestartTime = restartTime == RestartTime::s0     ? "0s"
-                            : restartTime == RestartTime::s0p5 ? "0.5s"
-                            : restartTime == RestartTime::s10  ? "10s"
-                            : restartTime == RestartTime::s1   ? "1s"
-                            : restartTime == RestartTime::s1p5 ? "1.5s"
-                            : restartTime == RestartTime::s2   ? "2s"
-                            : restartTime == RestartTime::s4   ? "4s"
-                                                               : "7s";
-    serial->print("restartTime " + strRestartTime + ", ");
+    auto strRestartTime = restartTime == RestartTime::s0     ? F("0s")
+                          : restartTime == RestartTime::s0p5 ? F("0.5s")
+                          : restartTime == RestartTime::s10  ? F("10s")
+                          : restartTime == RestartTime::s1   ? F("1s")
+                          : restartTime == RestartTime::s1p5 ? F("1.5s")
+                          : restartTime == RestartTime::s2   ? F("2s")
+                          : restartTime == RestartTime::s4   ? F("4s")
+                                                             : F("7s");
+    serial->print(F("restartTime "));
+    serial->print(strRestartTime);
+    serial->print(F(", "));
     using ValueTypes::PeriodOf1stDCExcitation;
-    String str1st =
-        periodOf1stDCExciation == PeriodOf1stDCExcitation::s0     ? "0s"
-        : periodOf1stDCExciation == PeriodOf1stDCExcitation::s0p2 ? "0.2s"
-        : periodOf1stDCExciation == PeriodOf1stDCExcitation::s0p5 ? "0.5s"
-                                                                  : "1s";
-    serial->print("periodOf1stDCExcitation " + str1st + ", ");
+    auto str1st =
+        periodOf1stDCExciation == PeriodOf1stDCExcitation::s0     ? F("0s")
+        : periodOf1stDCExciation == PeriodOf1stDCExcitation::s0p2 ? F("0.2s")
+        : periodOf1stDCExciation == PeriodOf1stDCExcitation::s0p5 ? F("0.5s")
+                                                                  : F("1s");
+    serial->print(F("periodOf1stDCExcitation "));
+    serial->print(str1st);
+    serial->print(F(", "));
     using ValueTypes::PeriodOf2ndDCExcitation;
-    String str2nd =
-        periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s0p1   ? "0.1s"
-        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s0p2 ? "0.2s"
-        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s0p4 ? "0.4s"
-        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s0p6 ? "0.6s"
-        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s0p8 ? "0.8s"
-        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s1   ? "1s"
-        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s1p5 ? "1.5s"
-                                                                  : "2s";
-    serial->print("periodOf2ndDCExcitation " + str2nd);
+    auto str2nd =
+        periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s0p1   ? F("0.1s")
+        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s0p2 ? F("0.2s")
+        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s0p4 ? F("0.4s")
+        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s0p6 ? F("0.6s")
+        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s0p8 ? F("0.8s")
+        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s1   ? F("1s")
+        : periodOf2ndDCExciation == PeriodOf2ndDCExcitation::s1p5 ? F("1.5s")
+                                                                  : F("2s");
+    serial->print(F("periodOf2ndDCExcitation "));
+    serial->print(str2nd);
   }
 };
 
@@ -817,37 +901,42 @@ class R21 : public Base {
 
   void print(Stream* serial) {
     using ValueTypes::LeadAngle;
-    String strLeadAngle = leadAngle == LeadAngle::deg0       ? "0deg"
-                          : leadAngle == LeadAngle::deg11p25 ? "11.25deg"
-                          : leadAngle == LeadAngle::deg15    ? "15deg"
-                          : leadAngle == LeadAngle::deg18p75 ? "18.75deg"
-                          : leadAngle == LeadAngle::deg22p5  ? "22.5deg"
-                          : leadAngle == LeadAngle::deg26p25 ? "26.25deg"
-                          : leadAngle == LeadAngle::deg30    ? "30deg"
-                          : leadAngle == LeadAngle::deg3p75  ? "3.75deg"
-                          : leadAngle == LeadAngle::deg7p5   ? "7.5deg"
-                          : leadAngle == LeadAngle::case9    ? "case0"
-                          : leadAngle == LeadAngle::case10   ? "case10"
-                          : leadAngle == LeadAngle::case11   ? "case11"
-                          : leadAngle == LeadAngle::case12   ? "case12"
-                          : leadAngle == LeadAngle::case13   ? "case13"
-                          : leadAngle == LeadAngle::case14   ? "case14"
-                                                             : "case15";
-    serial->print("leadAngle " + strLeadAngle + ", ");
+    auto strLeadAngle = leadAngle == LeadAngle::deg0       ? F("0deg")
+                        : leadAngle == LeadAngle::deg11p25 ? F("11.25deg")
+                        : leadAngle == LeadAngle::deg15    ? F("15deg")
+                        : leadAngle == LeadAngle::deg18p75 ? F("18.75deg")
+                        : leadAngle == LeadAngle::deg22p5  ? F("22.5deg")
+                        : leadAngle == LeadAngle::deg26p25 ? F("26.25deg")
+                        : leadAngle == LeadAngle::deg30    ? F("30deg")
+                        : leadAngle == LeadAngle::deg3p75  ? F("3.75deg")
+                        : leadAngle == LeadAngle::deg7p5   ? F("7.5deg")
+                        : leadAngle == LeadAngle::case9    ? F("case0")
+                        : leadAngle == LeadAngle::case10   ? F("case10")
+                        : leadAngle == LeadAngle::case11   ? F("case11")
+                        : leadAngle == LeadAngle::case12   ? F("case12")
+                        : leadAngle == LeadAngle::case13   ? F("case13")
+                        : leadAngle == LeadAngle::case14   ? F("case14")
+                                                           : F("case15");
+    serial->print(F("leadAngle "));
+    serial->print(strLeadAngle);
+    serial->print(F(", "));
     using ValueTypes::MaxRotationFrequency;
-    String strMax =
-        maxRotationFrequency == MaxRotationFrequency::kHz0p75  ? "0.75kHz"
-        : maxRotationFrequency == MaxRotationFrequency::kHz1p5 ? "1.5kHz"
-        : maxRotationFrequency == MaxRotationFrequency::kHz3   ? "3kHz"
-                                                               : "none";
-    serial->print("maxRotationFrequency " + strMax + ", ");
+    auto strMax =
+        maxRotationFrequency == MaxRotationFrequency::kHz0p75  ? F("0.75kHz")
+        : maxRotationFrequency == MaxRotationFrequency::kHz1p5 ? F("1.5kHz")
+        : maxRotationFrequency == MaxRotationFrequency::kHz3   ? F("3kHz")
+                                                               : F("none");
+    serial->print(F("maxRotationFrequency "));
+    serial->print(strMax);
+    serial->print(F(", "));
     using ValueTypes::MinRotationFrequency;
-    String strMin =
-        minRotationFrequency == MinRotationFrequency::Hz1p6   ? "1.6Hz"
-        : minRotationFrequency == MinRotationFrequency::Hz3p2 ? "3.2Hz"
-        : minRotationFrequency == MinRotationFrequency::Hz6p4 ? "6.4Hz"
-                                                              : "12.8Hz";
-    serial->print("minRotationFrequency " + strMin);
+    auto strMin =
+        minRotationFrequency == MinRotationFrequency::Hz1p6   ? F("1.6Hz")
+        : minRotationFrequency == MinRotationFrequency::Hz3p2 ? F("3.2Hz")
+        : minRotationFrequency == MinRotationFrequency::Hz6p4 ? F("6.4Hz")
+                                                              : F("12.8Hz");
+    serial->print(F("minRotationFrequency "));
+    serial->print(strMin);
   }
 };
 
@@ -885,32 +974,38 @@ class R22 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("enableSoftSwitching " +
-                  string_asukiaaa::trueFalse(enableSoftSwitching) + ", ");
+    serial->print(F("enableSoftSwitching "));
+    serial->print(string_asukiaaa::trueFalse(enableSoftSwitching));
+    serial->print(F(", "));
     using ValueTypes::SoftSwitchingAngle;
-    String strSoftSwitchAngle =
-        softSwitchingAngle == SoftSwitchingAngle::deg120   ? "120deg"
-        : softSwitchingAngle == SoftSwitchingAngle::deg135 ? "135deg"
+    auto strSoftSwitchAngle =
+        softSwitchingAngle == SoftSwitchingAngle::deg120   ? F("120deg")
+        : softSwitchingAngle == SoftSwitchingAngle::deg135 ? F("135deg")
         : softSwitchingAngle == SoftSwitchingAngle::deg150
-            ? "150deg"
-            : "150deg for soft 142.5 for no soft";
-    serial->print("softSwitchingAndle " + strSoftSwitchAngle + ", ");
+            ? F("150deg")
+            : F("150deg for soft 142.5 for no soft");
+    serial->print(F("softSwitchingAndle "));
+    serial->print(strSoftSwitchAngle);
+    serial->print(F(", "));
     using ValueTypes::OutputPWM;
-    String strOutputPWM = outputPWM == OutputPWM::kHz187p5  ? "187.5kHz"
-                          : outputPWM == OutputPWM::kHz23p4 ? "23.4kHz"
-                          : outputPWM == OutputPWM::kHz46p9 ? "46.9kHz"
-                          : outputPWM == OutputPWM::kHz93p7 ? "93.7kHz"
-                          : outputPWM == OutputPWM::case4   ? "case4"
-                          : outputPWM == OutputPWM::case5   ? "case5"
-                          : outputPWM == OutputPWM::case6   ? "case6"
-                                                            : "case7";
-    serial->print("outputPWM " + strOutputPWM + ", ");
+    auto strOutputPWM = outputPWM == OutputPWM::kHz187p5  ? F("187.5kHz")
+                        : outputPWM == OutputPWM::kHz23p4 ? F("23.4kHz")
+                        : outputPWM == OutputPWM::kHz46p9 ? F("46.9kHz")
+                        : outputPWM == OutputPWM::kHz93p7 ? F("93.7kHz")
+                        : outputPWM == OutputPWM::case4   ? F("case4")
+                        : outputPWM == OutputPWM::case5   ? F("case5")
+                        : outputPWM == OutputPWM::case6   ? F("case6")
+                                                          : F("case7");
+    serial->print(F("outputPWM "));
+    serial->print(strOutputPWM);
+    serial->print(F(", "));
     using ValueTypes::DeadTime;
-    String strDeadTime = deadTime == DeadTime::ns250    ? "250ns"
-                         : deadTime == DeadTime::ns500  ? "500ns"
-                         : deadTime == DeadTime::ns1000 ? "1000ns"
-                                                        : "1500ns";
-    serial->print("deadTime " + strDeadTime);
+    auto strDeadTime = deadTime == DeadTime::ns250    ? F("250ns")
+                       : deadTime == DeadTime::ns500  ? F("500ns")
+                       : deadTime == DeadTime::ns1000 ? F("1000ns")
+                                                      : F("1500ns");
+    serial->print(F("deadTime "));
+    serial->print(strDeadTime);
   }
 };
 
@@ -946,35 +1041,42 @@ class R23 : public Base {
   }
 
   void print(Stream* serial) {
-    String strIsdVolt =
-        isdThreshold == ValueTypes::ISDThreshold::v1 ? "1V" : "0.5V";
-    serial->print("ISD threshold " + strIsdVolt + ", ");
-    String strCurrentLimitVolt =
+    auto strIsdVolt =
+        isdThreshold == ValueTypes::ISDThreshold::v1 ? F("1V") : F("0.5V");
+    serial->print(F("ISD threshold "));
+    serial->print(strIsdVolt);
+    serial->print(F(", "));
+    auto strCurrentLimitVolt =
         currentLimitVoltage == ValueTypes::CurrentLimitVoltage::v0p25
-            ? "0.25V"
-            : "0.125V";
-    serial->print("currentLimitVoltage " + strCurrentLimitVolt + ", ");
+            ? F("0.25V")
+            : F("0.125V");
+    serial->print(F("currentLimitVoltage "));
+    serial->print(strCurrentLimitVolt);
+    serial->print(F(", "));
     using ValueTypes::SourceCurrent;
-    String strSourceCurrent =
-        sourceCurrent == SourceCurrent::ma100    ? "100mA"
-        : sourceCurrent == SourceCurrent::ma10   ? "10mA"
-        : sourceCurrent == SourceCurrent::ma13p9 ? "13.9mA"
-        : sourceCurrent == SourceCurrent::ma19p3 ? "19.3mA"
-        : sourceCurrent == SourceCurrent::ma26p8 ? "26.8mA"
-        : sourceCurrent == SourceCurrent::ma37p3 ? "37.3mA"
-        : sourceCurrent == SourceCurrent::ma51p8 ? "51.8mA"
-                                                 : "72.0mA";
-    serial->print("sourceCurrent" + strSourceCurrent + ", ");
+    auto strSourceCurrent =
+        sourceCurrent == SourceCurrent::ma100    ? F("100mA")
+        : sourceCurrent == SourceCurrent::ma10   ? F("10mA")
+        : sourceCurrent == SourceCurrent::ma13p9 ? F("13.9mA")
+        : sourceCurrent == SourceCurrent::ma19p3 ? F("19.3mA")
+        : sourceCurrent == SourceCurrent::ma26p8 ? F("26.8mA")
+        : sourceCurrent == SourceCurrent::ma37p3 ? F("37.3mA")
+        : sourceCurrent == SourceCurrent::ma51p8 ? F("51.8mA")
+                                                 : F("72.0mA");
+    serial->print(F("sourceCurrent"));
+    serial->print(strSourceCurrent);
+    serial->print(F(", "));
     using ValueTypes::SincCurrent;
-    String strSincCurrent = sincCurrent == SincCurrent::ma103p6   ? "103.6mA"
-                            : sincCurrent == SincCurrent::ma143p9 ? "143.9mA"
-                            : sincCurrent == SincCurrent::ma20    ? "20mA"
-                            : sincCurrent == SincCurrent::ma200   ? "200mA"
-                            : sincCurrent == SincCurrent::ma27p8  ? "27.8mA"
-                            : sincCurrent == SincCurrent::ma38p6  ? "38.6mA"
-                            : sincCurrent == SincCurrent::ma53p7  ? "53.7mA"
-                                                                  : "74.6mA";
-    serial->print("sincCurrent" + strSincCurrent);
+    auto strSincCurrent = sincCurrent == SincCurrent::ma103p6   ? F("103.6mA")
+                          : sincCurrent == SincCurrent::ma143p9 ? F("143.9mA")
+                          : sincCurrent == SincCurrent::ma20    ? F("20mA")
+                          : sincCurrent == SincCurrent::ma200   ? F("200mA")
+                          : sincCurrent == SincCurrent::ma27p8  ? F("27.8mA")
+                          : sincCurrent == SincCurrent::ma38p6  ? F("38.6mA")
+                          : sincCurrent == SincCurrent::ma53p7  ? F("53.7mA")
+                                                                : F("74.6mA");
+    serial->print(F("sincCurrent"));
+    serial->print(strSincCurrent);
   }
 };
 
@@ -1002,22 +1104,25 @@ class R24 : public Base {
 
   void print(Stream* serial) {
     using ValueTypes::HysteresisVoltage;
-    String strVolt = hysteresisVoltage == HysteresisVoltage::mv100   ? "100mV"
-                     : hysteresisVoltage == HysteresisVoltage::mv200 ? "200mV"
-                     : hysteresisVoltage == HysteresisVoltage::mv300 ? "300mV"
-                                                                     : "none";
-    serial->print("hysteresisVoltage " + strVolt);
+    auto strVolt = hysteresisVoltage == HysteresisVoltage::mv100   ? F("100mV")
+                   : hysteresisVoltage == HysteresisVoltage::mv200 ? F("200mV")
+                   : hysteresisVoltage == HysteresisVoltage::mv300 ? F("300mV")
+                                                                   : F("none");
+    serial->print(F("hysteresisVoltage "));
+    serial->print(strVolt);
   }
 };
 
 class R25 : public BaseOneValue {
  public:
-  R25() : BaseOneValue(25, "slaveAddress"){};
+  R25() : BaseOneValue(25, F("slaveAddress")){};
   uint8_t slaveAddress;
   void print(Stream* serial) {
-    serial->print("slaveAddress " + String(slaveAddress) + " (0x" +
-                  string_asukiaaa::padStart(String(slaveAddress, HEX), 2, '0') +
-                  ")");
+    serial->print(F("slaveAddress "));
+    serial->print(slaveAddress);
+    serial->print(F(" (0x"));
+    serial->print(string_asukiaaa::padStart(String(slaveAddress, HEX), 2, '0'));
+    serial->print(F(")"));
   }
 
  private:
@@ -1031,7 +1136,6 @@ class R27to28 : public Base {
 
   void parse(uint8_t* dataArr, uint8_t length) {
     if (length < this->length) {
-      Serial.println("skip parse r27");
       return;
     }
     // spd = (uint16_t)dataArr[0] << 2 | dataArr[1] >> 6;
@@ -1060,7 +1164,11 @@ class R27to28 : public Base {
 
   void print(Stream* serial) {
     float rate = (float)spd / 0x200;
-    serial->print("spd " + String(spd) + " (rate " + String(rate) + ")");
+    serial->print(F("spd "));
+    serial->print(spd);
+    serial->print(F(" (rate "));
+    serial->print(rate);
+    serial->print(F(")"));
   }
 };
 
@@ -1088,7 +1196,10 @@ class R29to30 : public Base {
   void print(Stream* serial) {
     String strRotationFreq =
         hzCnt == 0xffff ? "stop" : String((float)250000.0 / hzCnt) + "Hz";
-    serial->print("hzCnt " + String(hzCnt) + " " + strRotationFreq);
+    serial->print(F("hzCnt "));
+    serial->print(hzCnt);
+    serial->print(F(" "));
+    serial->print(strRotationFreq);
   }
 };
 
@@ -1116,10 +1227,9 @@ class R86 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("nvmReadWrite " +
-                  String(nvmReadWrite == ValueTypes::NVMReadWrite::read
-                             ? "read"
-                             : "write"));
+    serial->print(F("nvmReadWrite "));
+    serial->print(nvmReadWrite == ValueTypes::NVMReadWrite::read ? F("read")
+                                                                 : F("write"));
   }
 };
 
@@ -1147,7 +1257,8 @@ class R87 : public Base {
   }
 
   void print(Stream* serial) {
-    serial->print("nvmStart " + string_asukiaaa::trueFalse(nvmStart));
+    serial->print(F("nvmStart "));
+    serial->print(string_asukiaaa::trueFalse(nvmStart));
   }
 };
 

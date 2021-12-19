@@ -164,12 +164,13 @@ class CoreI2c {
       if (reg == NULL) {
         continue;
       }
-      serial->print(
-          "R" + string_asukiaaa::padNumStart(reg->startAddress, 2, '0') + ' ');
+      serial->print('R');
+      serial->print(string_asukiaaa::padNumStart(reg->startAddress, 2, '0'));
+      serial->print(' ');
       auto result = readRegister(reg, serial);
       serial->print(' ');
       if (result != 0) {
-        serial->println("Cannot read");
+        serial->println(F("Cannot read"));
       } else {
         reg->print(serial);
         serial->println();

@@ -34,10 +34,10 @@ void setup() {
 }
 
 void loop() {
-  // Serial.println("motor state");
-  // motor.printRegisters(&Serial);
-  // Serial.println("at " + String(millis()));
-  // delay(2000);
+  Serial.println("motor state");
+  motor.printRegisters(&Serial);
+  Serial.println("at " + String(millis()));
+  delay(2000);
 
   digitalWrite(PIN_MOTOR_SPD, HIGH);
   Serial.println("run for 2 seconds");
