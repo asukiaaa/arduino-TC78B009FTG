@@ -61,25 +61,25 @@ class CoreI2c {
   //                                    defaultConfigLen);
   // }
 
-  void writeConfigExampleTable8p47OpenLoop() {
-    Registers::R03 r03;
-    r03.startDuty = 102;  // 0.2
-    writeRegister(r03);
-    Registers::R02 r02;
-    r02.stopDuty = 46;  // 0.18
-    writeRegister(r02);
-    Registers::R05 r05;
-    r05.maxDuty = 204;  // 0.9
-    writeRegister(r05);
-    Registers::R06to07 r06to07;
-    readRegister(&r06to07);
-    r06to07.startRpm = 51;  // 0.1
-    writeRegister(r06to07);
-    Registers::R08to09 r08to09;
-    readRegister(&r08to09);
-    r08to09.speedSlop = 1241;  // 0.95
-    writeRegister(r08to09);
-  }
+  // void writeConfigExampleTable8p47OpenLoop() {
+  //   Registers::R03 r03;
+  //   r03.startDuty = 102;  // 0.2
+  //   writeRegister(r03);
+  //   Registers::R02 r02;
+  //   r02.stopDuty = 46;  // 0.18
+  //   writeRegister(r02);
+  //   Registers::R05 r05;
+  //   r05.maxDuty = 204;  // 0.9
+  //   writeRegister(r05);
+  //   Registers::R06to07 r06to07;
+  //   readRegister(&r06to07);
+  //   r06to07.startRpm = 51;  // 0.1
+  //   writeRegister(r06to07);
+  //   Registers::R08to09 r08to09;
+  //   readRegister(&r08to09);
+  //   r08to09.speedSlop = 1241;  // 0.95
+  //   writeRegister(r08to09);
+  // }
 
   void printRegisters(Stream* serial) {
     for (int i = 0; i < 30; ++i) {
