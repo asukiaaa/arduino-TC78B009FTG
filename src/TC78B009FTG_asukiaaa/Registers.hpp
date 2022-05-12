@@ -247,7 +247,7 @@ class R08to09 : public Base {
     if (length < this->length) {
       return;
     }
-    speedSlop = ((uint16_t)(data[1] & 0xfc) << 6) | data[0];
+    speedSlop = ((uint16_t)data[0] << 6) | ((data[1] & 0xfc) >> 2);
     maxOpen = bitRead(data[1], 1);
     maxOff = bitRead(data[1], 0);
   }
@@ -256,8 +256,8 @@ class R08to09 : public Base {
     if (length < this->length) {
       return;
     }
-    data[0] = speedSlop & 0x00ff;
-    data[1] = ((speedSlop >> 6) & 0xfc) | (maxOpen ? bit(1) : 0) |
+    data[0] = (speedSlop >> 6) & 0x00ff;
+    data[1] = ((speedSlop << 2) & 0xfc) | (maxOpen ? bit(1) : 0) |
               (maxOff ? bit(0) : 0);
   }
 
